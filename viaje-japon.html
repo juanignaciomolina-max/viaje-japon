@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juani & Sol · 日本へようこそ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&family=Rampart+One&family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --red: #e63946;
+  --gold: #ffd700;
+  --cyan: #00e5ff;
+  --white: #fff;
+  --bg: #0a0a1a;
+  --bg2: #12122a;
+  --font-ja: 'Noto Sans JP', sans-serif;
+  --font-display: 'Rampart One', cursive;
+  --font-pop: 'Mochiy Pop One', sans-serif;
+  --font-maru: 'Zen Maru Gothic', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-ja);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  transition: opacity 1s ease;
+}
+
+.bg-layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.45) saturate(1.2) contrast(1.1);
+}
+
+.bg-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(10,10,26,0.85) 0%,
+    rgba(10,10,26,0.25) 25%,
+    rgba(10,10,26,0.35) 60%,
+    rgba(10,10,26,0.9) 100%
+  );
+  z-index: 1;
+}
+
+.bg-layer { opacity: 0; }
+.bg-layer.active { opacity: 1; }
+
+#fireworks, #particles {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ===== HEADER ===== */
+.main-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.15) 100%);
+  backdrop-filter: blur(8px);
+  min-height: 54px;
+}
+
+.header-left {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.header-names {
+  font-family: var(--font-display);
+  font-size: clamp(16px, 2.8vw, 30px);
+  color: var(--white);
+  text-shadow: 0 0 20px rgba(255,215,0,0.15);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.header-year {
+  font-family: var(--font-maru);
+  font-size: clamp(9px, 1vw, 12px);
+  letter-spacing: 3px;
+  color: var(--gold);
+  opacity: 0.45;
+}
+
+.header-countdown {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.hcd-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 26px;
+}
+
+.hcd-num {
+  font-family: var(--font-pop);
+  font-size: clamp(16px, 2.2vw, 24px);
+  line-height: 1;
+  color: var(--white);
+  text-shadow: 0 0 10px rgba(255,215,0,0.1);
+  font-variant-numeric: tabular-nums;
+}
+
+.hcd-label {
+  font-family: var(--font-maru);
+  font-size: 6px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  margin-top: 1px;
+}
+
+.hcd-sep {
+  font-family: var(--font-pop);
+  font-size: clamp(12px, 1.5vw, 18px);
+  color: var(--gold);
+  opacity: 0.3;
+  margin-top: -6px;
+}
+
+/* ===== ITINERARY MAIN ===== */
+.it-main {
+  position: relative;
+  z-index: 10;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 8px 12px 16px;
+  height: calc(100vh - 54px);
+  display: flex;
+  flex-direction: column;
+}
+
+.it-day-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.it-day-nav button {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.55);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-family: var(--font-maru);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+
+.it-day-nav button:hover {
+  background: rgba(255,215,0,0.1);
+  border-color: rgba(255,215,0,0.25);
+  color: var(--gold);
+}
+
+.it-day-label {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+}
+
+.it-day-label .dow {
+  display: block;
+  font-size: 9px;
+  color: rgba(255,255,255,0.25);
+  margin-top: 1px;
+}
+
+.it-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+  scroll-behavior: smooth;
+}
+
+.it-body::-webkit-scrollbar { width: 3px; }
+.it-body::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.15); border-radius: 2px; }
+
+.it-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: rgba(255,255,255,0.15);
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.it-event {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 6px;
+  transition: all 0.25s;
+}
+
+.it-event:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,215,0,0.12);
+}
+
+.it-event .ev-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.it-event .ev-time {
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  white-space: nowrap;
+  padding: 2px 8px;
+  background: rgba(255,215,0,0.08);
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.it-event .ev-title {
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  color: var(--white);
+  flex: 1;
+  line-height: 1.4;
+  margin-top: 3px;
+}
+
+.it-event .ev-cat {
+  display: inline-block;
+  font-size: 8px;
+  letter-spacing: 1px;
+  padding: 1px 7px;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+
+.it-event .ev-desc {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  margin-top: 3px;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+}
+
+.it-event .ev-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.it-event .ev-actions button {
+  background: none;
+  border: none;
+  font-family: var(--font-maru);
+  font-size: 9px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 4px;
+  transition: all 0.25s;
+}
+
+.ev-edit { color: var(--cyan); }
+.ev-edit:hover { background: rgba(0,229,255,0.1); }
+
+.ev-del { color: var(--red); }
+.ev-del:hover { background: rgba(230,57,70,0.1); }
+
+.ev-jg {
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.ev-jg:hover { text-decoration: underline; }
+
+.it-add-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  background: rgba(255,215,0,0.06);
+  border: 1px dashed rgba(255,215,0,0.15);
+  border-radius: 10px;
+  color: var(--gold);
+  font-family: var(--font-maru);
+  font-size: 11px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.it-add-btn:hover {
+  background: rgba(255,215,0,0.12);
+  border-color: rgba(255,215,0,0.35);
+}
+
+.jg-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  color: var(--gold);
+  text-decoration: none;
+  letter-spacing: 1px;
+  margin-top: 4px;
+  opacity: 0.6;
+  transition: opacity 0.25s;
+}
+
+.jg-search:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.gmaps-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  color: var(--cyan);
+  text-decoration: none;
+  letter-spacing: 1px;
+  margin-top: 4px;
+  opacity: 0.6;
+  transition: opacity 0.25s;
+}
+
+.gmaps-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.web-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  letter-spacing: 1px;
+  margin-top: 4px;
+  opacity: 0.6;
+  transition: opacity 0.25s;
+}
+
+.web-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.it-all-day {
+  font-size: 9px;
+  color: rgba(255,215,0,0.4);
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  background: rgba(255,215,0,0.04);
+  border-radius: 4px;
+}
+
+/* ===== MODAL ===== */
+.it-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.it-modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.it-modal-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+}
+
+.it-modal-box {
+  position: relative;
+  background: var(--bg2);
+  border: 1px solid rgba(255,215,0,0.12);
+  border-radius: 16px;
+  padding: 24px;
+  width: min(400px, calc(100vw - 32px));
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.it-modal-box h3 {
+  font-family: var(--font-pop);
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 3px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 8px 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  color: var(--white);
+  font-family: var(--font-maru);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  outline: none;
+  transition: border-color 0.25s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--gold);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 44px;
+}
+
+.form-group select option {
+  background: var(--bg2);
+  color: var(--white);
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.form-actions button {
+  flex: 1;
+  padding: 9px;
+  border-radius: 8px;
+  font-family: var(--font-maru);
+  font-size: 11px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: none;
+}
+
+.btn-save {
+  background: var(--gold);
+  color: var(--bg);
+  font-weight: 700;
+}
+
+.btn-save:hover { background: #ffe44d; }
+
+.btn-cancel {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.45);
+}
+
+.btn-cancel:hover { background: rgba(255,255,255,0.08); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
+
+@media (max-width: 480px) {
+  .main-header { padding: 8px 10px; min-height: 48px; }
+  .it-main { padding: 6px 8px 12px; height: calc(100vh - 48px); }
+  .it-day-nav { padding: 8px 10px; }
+  .it-day-nav button { font-size: 10px; padding: 5px 7px; }
+  .it-modal-box { padding: 18px; }
+  .header-countdown { gap: 3px; }
+  .hcd-unit { min-width: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-layer active" id="bg0">
+  <img src="https://images.unsplash.com/photo-1480796927426-f609979314bd?auto=format&fit=crop&w=1920&q=80" alt="Tokyo Shibuya">
+</div>
+<div class="bg-layer" id="bg1">
+  <img src="https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?auto=format&fit=crop&w=1920&q=80" alt="Fushimi Inari">
+</div>
+<div class="bg-layer" id="bg2">
+  <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=1920&q=80" alt="Ramen">
+</div>
+<div class="bg-layer" id="bg3">
+  <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1920&q=80" alt="Tokyo night">
+</div>
+
+<canvas id="fireworks"></canvas>
+<canvas id="particles"></canvas>
+
+<!-- ===== HEADER ===== -->
+<header class="main-header">
+  <div class="header-left">
+    <span class="header-names">JUANI &amp; SOL</span>
+    <span class="header-year">日本 2026</span>
+  </div>
+  <div class="header-countdown" id="headerCountdown">
+    <div class="hcd-unit"><span class="hcd-num" id="days">00</span><span class="hcd-label">Días</span></div>
+    <span class="hcd-sep">:</span>
+    <div class="hcd-unit"><span class="hcd-num" id="hours">00</span><span class="hcd-label">Horas</span></div>
+    <span class="hcd-sep">:</span>
+    <div class="hcd-unit"><span class="hcd-num" id="minutes">00</span><span class="hcd-label">Min</span></div>
+    <span class="hcd-sep">:</span>
+    <div class="hcd-unit"><span class="hcd-num" id="seconds">00</span><span class="hcd-label">Seg</span></div>
+  </div>
+</header>
+
+<!-- ===== ITINERARY ===== -->
+<main class="it-main" id="itMain">
+  <div class="it-day-nav">
+    <button id="itPrev">‹ Día anterior</button>
+    <div class="it-day-label" id="itDayLabel">
+      <span id="itDateDisplay"></span>
+      <span class="dow" id="itDowDisplay"></span>
+    </div>
+    <button id="itNext">Día siguiente ›</button>
+  </div>
+  <div class="it-body" id="itBody">
+    <div class="it-empty">Cargando...</div>
+  </div>
+</main>
+
+<!-- ===== MODAL ===== -->
+<div class="it-modal" id="itModal">
+  <div class="it-modal-bg" id="itModalBg"></div>
+  <div class="it-modal-box">
+    <h3 id="itModalTitle">Nuevo evento</h3>
+    <form id="itForm">
+      <div class="form-group">
+        <label>Título</label>
+        <input type="text" id="fTitle" placeholder="Ej: Fushimi Inari" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Inicio</label>
+          <input type="time" id="fStart">
+        </div>
+        <div class="form-group">
+          <label>Fin</label>
+          <input type="time" id="fEnd">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea id="fDesc" placeholder="Notas, tips, lo que haya que saber..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Categoría</label>
+        <select id="fCat">
+          <option value="sightseeing">🗼 Sightseeing</option>
+          <option value="food">🍜 Comida</option>
+          <option value="temple">⛩️ Templo/Santuario</option>
+          <option value="museum">🎨 Museo/Arte</option>
+          <option value="shopping">🛍️ Shopping</option>
+          <option value="nature">🌳 Naturaleza</option>
+          <option value="transport">✈️ Transporte</option>
+          <option value="hotel">🏨 Hotel</option>
+          <option value="festival">🎆 Festival</option>
+          <option value="other">📌 Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Link Japan-Guide (opcional)</label>
+        <input type="url" id="fJg" placeholder="https://www.japan-guide.com/e/...">
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" id="itFormCancel">Cancelar</button>
+        <button type="submit" class="btn-save" id="itFormSave">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const $ = id => document.getElementById(id);
+  const DOWS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+  const CAT_EMOJI = {
+    sightseeing: '🗼', food: '🍜', temple: '⛩️', museum: '🎨',
+    shopping: '🛍️', nature: '🌳', transport: '✈️', hotel: '🏨',
+    festival: '🎆', other: '📌'
+  };
+  const CAT_COLOR = {
+    sightseeing: 'rgba(0,229,255,0.15)', food: 'rgba(255,107,53,0.15)',
+    temple: 'rgba(230,57,70,0.15)', museum: 'rgba(255,0,255,0.15)',
+    shopping: 'rgba(255,215,0,0.15)', nature: 'rgba(0,255,136,0.15)',
+    transport: 'rgba(100,149,237,0.15)', hotel: 'rgba(255,255,255,0.08)',
+    festival: 'rgba(255,215,0,0.2)', other: 'rgba(255,255,255,0.05)'
+  };
+  const CAT_TEXT = {
+    sightseeing: 'rgba(0,229,255,0.8)', food: 'rgba(255,107,53,0.8)',
+    temple: 'rgba(230,57,70,0.8)', museum: 'rgba(255,0,255,0.8)',
+    shopping: 'rgba(255,215,0,0.8)', nature: 'rgba(0,255,136,0.8)',
+    transport: 'rgba(100,149,237,0.8)', hotel: 'rgba(255,255,255,0.4)',
+    festival: 'rgba(255,215,0,0.9)', other: 'rgba(255,255,255,0.4)'
+  };
+
+  const DEFAULT_EVENTS = [
+    {id:'d1',date:'2026-07-03',start:'',end:'',title:'Salida de Buenos Aires',desc:'Vuelo a Japón desde Ezeiza ~30h',cat:'transport'},
+    {id:'d2',date:'2026-07-05',start:'17:00',end:'17:30',title:'Llegada a Tokyo',desc:'Aterrizamos en Narita/Haneda',cat:'transport'},
+    {id:'d3',date:'2026-07-05',start:'17:30',end:'00:00',title:'Cena, paseo y descanso',desc:'Primera noche en Tokyo',cat:'food'},
+    {id:'h6',date:'2026-07-05',start:'',end:'',title:'APA Hotel Shinjuku Kabukicho Tower (check-in 15:00)',desc:'Kabukichō 1-20-2 · Check-out 9 jul',cat:'hotel',addr:'Kabukicho 1-20-2, Shinjuku-ku, Tokyo, Japón',web:'https://www3.apahotel.com/hotel/syutoken/tokyo/shinjuku-kabukichotower/'},
+    {id:'d4',date:'2026-07-06',start:'08:00',end:'11:30',title:'Yoyogi Park · Santuario Meiji · Museo Watari-um',desc:'Paseo por Shibuya/Harajuku',cat:'sightseeing'},
+    {id:'d5',date:'2026-07-06',start:'11:30',end:'14:00',title:'Hoka · Uniqlo · Bic Camera · Shibuya · Yodobashi',desc:'Compras por Shibuya',cat:'shopping'},
+    {id:'d6',date:'2026-07-06',start:'14:00',end:'15:00',title:'Almuerzo',cat:'food'},
+    {id:'d7',date:'2026-07-06',start:'15:00',end:'16:00',title:'APA Hotel Shinjuku Kabukicho Tower — dejar cosas',cat:'hotel'},
+    {id:'d8',date:'2026-07-06',start:'16:00',end:'21:00',title:'Ginza + cena',cat:'food'},
+    {id:'d9',date:'2026-07-07',start:'09:00',end:'13:00',title:'Mercado Tsukiji',cat:'food'},
+    {id:'d10',date:'2026-07-07',start:'13:00',end:'15:00',title:'Hamarikyu Gardens',cat:'nature'},
+    {id:'d11',date:'2026-07-07',start:'15:00',end:'16:30',title:'Barco a Odaiba',cat:'transport'},
+    {id:'d12',date:'2026-07-07',start:'16:30',end:'21:00',title:'Odaiba',desc:'TeamLab, shopping, vista de Tokyo',cat:'sightseeing'},
+    {id:'d13',date:'2026-07-08',start:'09:30',end:'12:00',title:'Museo Hokusai',cat:'museum'},
+    {id:'d14',date:'2026-07-08',start:'14:00',end:'02:00',title:'Koenji · West Side Tokyo',desc:'Barrio alternativo, bares, música',cat:'sightseeing'},
+    {id:'d15',date:'2026-07-09',start:'10:30',end:'11:30',title:'Recoger auto Toyota rent a car',cat:'transport'},
+    {id:'d16',date:'2026-07-09',start:'12:00',end:'14:15',title:'Kenrokuen Garden',desc:'Uno de los 3 grandes jardines de Japón',cat:'nature'},
+    {id:'h1',date:'2026-07-09',start:'',end:'',title:'LINNAS Kanazawa',desc:'Habitación · Check-in 15:00 · Check-out 13 jul 10:00',cat:'hotel',addr:'1-2-8 Owaricho, Kanazawa, Ishikawa 920-0902, Japón',web:'https://www.linnashotels.com/kanazawa'},
+    {id:'d17',date:'2026-07-10',start:'',end:'',title:'Kanazawa → Chirihama → Hakui → costa',desc:'Ruta en auto por la costa',cat:'sightseeing'},
+    {id:'d18',date:'2026-07-11',start:'',end:'',title:'Kanazawa → Tedori Gorge → Shiramine',desc:'Garganta y pueblo tradicional',cat:'nature'},
+    {id:'d19',date:'2026-07-12',start:'',end:'',title:'Kanazawa → Shirakawa-go → Gokayama',desc:'Pueblos históricos con casas gassho-zukuri',cat:'sightseeing'},
+    {id:'d20',date:'2026-07-12',start:'20:00',end:'21:00',title:'Devolver auto Toyota',cat:'transport'},
+    {id:'d21',date:'2026-07-13',start:'09:00',end:'13:00',title:'Kyoto Kiocera Museum · Café',cat:'museum'},
+    {id:'d22',date:'2026-07-13',start:'13:00',end:'14:00',title:'Samurai/Ninja museum',cat:'museum'},
+    {id:'d23',date:'2026-07-13',start:'16:00',end:'17:00',title:'HOTEL TAVINOS Kyoto / descanso',cat:'hotel'},
+    {id:'d24',date:'2026-07-13',start:'18:00',end:'21:00',title:'Pontocho Alley — bebidas y comidas',desc:'Calle atmosférica junto al río Kamogawa',cat:'food'},
+    {id:'h2',date:'2026-07-13',start:'',end:'',title:'HOTEL TAVINOS Kyoto',desc:'Habitación · 612 Azuchichō, Shimogyō Ward · Check-in 15:00 · Check-out 18 jul 11:00',cat:'hotel',addr:'612 Azuchichō, Shimogyō Ward, Kyoto, Japón',web:'https://hoteltavinos.com/en/kyoto/'},
+    {id:'d25',date:'2026-07-14',start:'08:00',end:'17:00',title:'Ine Town / Amanohashidate',desc:'Excursión: pueblo de pescadores y vista de pinos',cat:'sightseeing'},
+    {id:'d26',date:'2026-07-14',start:'18:00',end:'21:00',title:'Momo Vinyl bar',cat:'other'},
+    {id:'d27',date:'2026-07-15',start:'10:00',end:'12:00',title:'Museo Nintendo',cat:'museum',jg:'https://www.japan-guide.com/e/e3911.html'},
+    {id:'d28',date:'2026-07-15',start:'13:00',end:'15:00',title:'Arashiyama · Gioji temple',desc:'Bosque de bambú y templo musgoso',cat:'temple'},
+    {id:'d29',date:'2026-07-15',start:'15:00',end:'17:00',title:'Gingakuji (Ginkaku-ji)',desc:'Pabellón de plata',cat:'temple'},
+    {id:'d30',date:'2026-07-15',start:'17:00',end:'21:00',title:'Shijo-dori y Karasuma-dori',desc:'Ver las carrozas del Matsuri',cat:'festival'},
+    {id:'d31',date:'2026-07-16',start:'09:00',end:'15:00',title:'Templo Kiyomizu Dera / Higashiyama',cat:'temple'},
+    {id:'d32',date:'2026-07-16',start:'17:00',end:'21:00',title:'Muromachi y Shinmachi',cat:'sightseeing'},
+    {id:'d33',date:'2026-07-17',start:'09:00',end:'12:00',title:'Desfile Saki Matsuri',cat:'festival'},
+    {id:'d34',date:'2026-07-17',start:'14:00',end:'16:00',title:'teamLab Biovortex Kyoto',desc:'A 10 min caminando de Kyoto Station · El museo digital más grande de Japón',cat:'museum',addr:'21-5 Higashikujo Higashi-Iwamotocho, Minami-ku, Kyoto, Japón',jg:'https://www.japan-guide.com/e/e3952.html',web:'https://www.teamlab.art/e/kyoto/'},
+    {id:'d35',date:'2026-07-18',start:'09:00',end:'10:00',title:'Llega XeroB HOUSE Osaka',desc:'Dejar valijas',cat:'hotel'},
+    {id:'d36',date:'2026-07-18',start:'10:15',end:'11:15',title:'Namba Yasaka Shrine',desc:'Templo con cabeza de león gigante',cat:'temple'},
+    {id:'d37',date:'2026-07-18',start:'13:00',end:'16:00',title:'Paseo por Dotonbori · Namba · Shinsekai',cat:'sightseeing'},
+    {id:'d38',date:'2026-07-18',start:'13:00',end:'16:30',title:'Osaka Castle',cat:'sightseeing'},
+    {id:'h3',date:'2026-07-18',start:'',end:'',title:'XeroB HOUSE -KOZU sen501',desc:'1 Chome-10-10 Kozu, Chuo Ward · Check-in 16:00 · Check-out 21 jul 11:00',cat:'hotel',addr:'1 Chome-10-10 Kozu, Chuo Ward, Osaka, Japón'},
+    {id:'d39',date:'2026-07-18',start:'16:30',end:'19:30',title:'Nakazakicho',cat:'sightseeing'},
+    {id:'d40',date:'2026-07-18',start:'19:30',end:'20:30',title:'Gyozaclub Rocklee',cat:'food'},
+    {id:'d41',date:'2026-07-19',start:'10:00',end:'12:00',title:'Museo Nakanoshima · Yodobashi · Nakanoshima Park',cat:'sightseeing'},
+    {id:'d42',date:'2026-07-19',start:'12:00',end:'15:30',title:'Orange Street',desc:'Calle de diseño y compras',cat:'shopping'},
+    {id:'d43',date:'2026-07-19',start:'15:30',end:'19:00',title:'Osaka Aquarium (Kaiyukan)',cat:'sightseeing'},
+    {id:'d44',date:'2026-07-19',start:'19:00',end:'22:00',title:'Una namba (bares)',cat:'food'},
+    {id:'d45',date:'2026-07-20',start:'10:00',end:'17:00',title:'Katsuoji Temple',desc:'Templo de los osos de la suerte (daruma)',cat:'temple'},
+    {id:'d46',date:'2026-07-20',start:'17:00',end:'18:00',title:'Pinball Bar',cat:'other'},
+    {id:'d47',date:'2026-07-20',start:'19:30',end:'23:30',title:'Shinsekai / Dotonbori',cat:'food'},
+    {id:'d48',date:'2026-07-20',start:'20:45',end:'21:45',title:'Hozenji Yokocho',desc:'Callejuela empedrada con linternas',cat:'sightseeing'},
+    {id:'d49',date:'2026-07-21',start:'09:00',end:'11:00',title:'Llegamos a Okayama',cat:'transport'},
+    {id:'d50',date:'2026-07-21',start:'11:00',end:'17:45',title:'Kurashiki',desc:'Distrito histórico con canales',cat:'sightseeing'},
+    {id:'h4',date:'2026-07-21',start:'',end:'',title:'Ark Hotel Okayama',desc:'2-6-1 Shimoishii, Kita-ku · Route Inn Hotels · Check-in 15:00 · Check-out 24 jul 11:00',cat:'hotel',addr:'2-6-1 Shimoishii, Kita-ku, Okayama, Japón',web:'https://www.ark-hotel.co.jp/okayama/'},
+    {id:'d51',date:'2026-07-21',start:'18:00',end:'20:00',title:'Cena en Okayama',desc:'Estación Okayama variedad',cat:'food'},
+    {id:'d52',date:'2026-07-22',start:'09:00',end:'19:00',title:'Naoshima',desc:'Isla del arte · Museo Chichu, Benesse House',cat:'museum'},
+    {id:'d53',date:'2026-07-23',start:'09:00',end:'19:00',title:'Onomichi',desc:'Templos y caminata con vista al mar',cat:'sightseeing'},
+    {id:'d54',date:'2026-07-24',start:'10:00',end:'15:00',title:'Llegada hotel Tokyo · descanso · almuerzo',cat:'hotel'},
+    {id:'h7',date:'2026-07-24',start:'',end:'',title:'APA Hotel Higashi Shinjuku Kabukicho Higashi (check-in 15:00)',desc:'Kabukichō 2-17-7 · Check-out 2 ago',cat:'hotel',addr:'Kabukicho 2-17-7, Shinjuku-ku, Tokyo, Japón',web:'https://www3.apahotel.com/hotel/syutoken/tokyo/higashishinjuku-kabukicho-higashi/'},
+    {id:'d55',date:'2026-07-24',start:'16:00',end:'17:00',title:'Nakano / Koenji',cat:'sightseeing'},
+    {id:'d56',date:'2026-07-25',start:'',end:'',title:'FIREWORKS (Hanabi)',desc:'Festival de fuegos artificiales 🎆',cat:'festival'},
+    {id:'d57',date:'2026-07-26',start:'',end:'',title:'Museo Ghibli',desc:'Mitaka · Reserva con anticipación',cat:'museum',jg:'https://www.japan-guide.com/e/e3034.html'},
+    {id:'d58',date:'2026-07-26',start:'00:00',end:'01:00',title:'Recorrer Mitaka',cat:'sightseeing'},
+    {id:'h5',date:'2026-07-27',start:'',end:'',title:'Yoshiike Ryokan',desc:'597 Yumoto, Hakone · Onsen ryokan tradicional · Check-in 14:00 · Check-out 28 jul 10:00',cat:'hotel',addr:'597 Yumoto, Hakone, Kanagawa 250-0311, Japón',web:'https://www.yoshiike.org/en/'},
+    {id:'d59',date:'2026-07-27',start:'14:00',end:'15:00',title:'Check-in Hakone',cat:'hotel'},
+    {id:'d60',date:'2026-07-28',start:'09:00',end:'20:00',title:'Hakone',desc:'Onsen, lago Ashi, teleférico, vista del Fuji',cat:'nature'},
+    {id:'d61',date:'2026-07-29',start:'09:00',end:'16:00',title:'Museo Mori · Roppongi Hills',cat:'museum'},
+    {id:'d62',date:'2026-07-30',start:'',end:'',title:'Kamakura / Enoshima',desc:'Excursión día completo',cat:'sightseeing'},
+    {id:'d63',date:'2026-08-03',start:'',end:'',title:'Vuelta a Argentina :(',cat:'transport'}
+  ];
+
+  const DATA_VERSION = 'v3'; // bump to reload defaults
+
+  let events = [];
+  let currentDate = new Date('2026-07-05');
+  let editingId = null;
+
+  function loadEvents() {
+    const stored = localStorage.getItem('jp_itinerary');
+    const ver = localStorage.getItem('jp_itinerary_ver');
+    if (stored && ver === DATA_VERSION) {
+      try { events = JSON.parse(stored); return; } catch(e) {}
+    }
+    events = JSON.parse(JSON.stringify(DEFAULT_EVENTS));
+    saveEvents();
+  }
+
+  function saveEvents() {
+    localStorage.setItem('jp_itinerary', JSON.stringify(events));
+    localStorage.setItem('jp_itinerary_ver', DATA_VERSION);
+  }
+
+  function fmtDate(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth()+1).padStart(2,'0');
+    const day = String(d.getDate()).padStart(2,'0');
+    return y + '-' + m + '-' + day;
+  }
+
+  function addDays(d, n) {
+    const r = new Date(d);
+    r.setDate(r.getDate() + n);
+    return r;
+  }
+
+  function getEventsForDate(dateStr) {
+    return events.filter(e => e.date === dateStr).sort((a,b) => {
+      if (!a.start && !b.start) return 0;
+      if (!a.start) return 1;
+      if (!b.start) return -1;
+      return a.start.localeCompare(b.start);
+    });
+  }
+
+  function getAllDates() {
+    const dates = [...new Set(events.map(e => e.date))].sort();
+    return dates;
+  }
+
+  function renderDay() {
+    const dateStr = fmtDate(currentDate);
+    const dayEvents = getEventsForDate(dateStr);
+    const body = $('itBody');
+
+    const d = currentDate;
+    $('itDateDisplay').textContent = dateStr;
+    $('itDowDisplay').textContent = DOWS[d.getDay()] + ' ' + d.getDate() + ' jul';
+
+    if (dayEvents.length === 0) {
+      body.innerHTML = '<div class="it-empty">✨ Nada planeado para hoy ✨<br><br><button class="it-add-btn" onclick="window._addEvent()">+ Agregar evento</button></div>';
+      return;
+    }
+
+    let html = '';
+    for (const ev of dayEvents) {
+      const cat = ev.cat || 'other';
+      const emoji = CAT_EMOJI[cat] || '📌';
+      const bg = CAT_COLOR[cat] || 'rgba(255,255,255,0.05)';
+      const tc = CAT_TEXT[cat] || 'rgba(255,255,255,0.4)';
+      const timeStr = ev.start && ev.end ? ev.start + ' – ' + ev.end : (ev.start ? 'Desde ' + ev.start : 'Todo el día');
+      const timeClass = ev.start ? 'ev-time' : 'it-all-day';
+      const descHtml = ev.desc ? '<div class="ev-desc">' + ev.desc + '</div>' : '';
+      const mapsQuery = ev.addr || (ev.title + ' Japan');
+      const mapsLink = '<a href="https://www.google.com/maps?q=' + encodeURIComponent(mapsQuery) + '" target="_blank" class="gmaps-link">📍 Google Maps</a>';
+      const jgHtml = ev.jg ? '<a href="' + ev.jg + '" target="_blank" class="ev-jg">🔍 Japan-Guide ↗</a>' : '';
+      const jgSearch = !ev.jg ? '<a href="https://www.japan-guide.com/search/?q=' + encodeURIComponent(ev.title) + '" target="_blank" class="jg-search">🔍 Buscar en Japan-Guide</a>' : '';
+
+      const webHtml = ev.web ? '<a href="' + ev.web + '" target="_blank" class="web-link">🌐 Sitio web</a>' : '';
+
+      const links = [];
+      links.push(mapsLink);
+      if (jgHtml) links.push(jgHtml);
+      if (jgSearch) links.push(jgSearch);
+      if (webHtml) links.push(webHtml);
+
+      html += '<div class="it-event" data-id="' + ev.id + '">'
+        + '<div class="ev-top">'
+        + '<span class="' + timeClass + '">' + timeStr + '</span>'
+        + '<span class="ev-cat" style="background:' + bg + ';color:' + tc + '">' + emoji + ' ' + cat + '</span>'
+        + '</div>'
+        + '<div class="ev-title">' + ev.title + '</div>'
+        + descHtml
+        + (links.length ? '<div style="margin-top:4px;display:flex;gap:10px;flex-wrap:wrap">' + links.join(' ') + '</div>' : '')
+        + '<div class="ev-actions">'
+        + '<button class="ev-edit" onclick="window._editEvent(\'' + ev.id + '\')">✎ Editar</button>'
+        + '<button class="ev-del" onclick="window._delEvent(\'' + ev.id + '\')">✕ Eliminar</button>'
+        + '</div>'
+        + '</div>';
+    }
+
+    html += '<button class="it-add-btn" onclick="window._addEvent()">+ Agregar evento</button>';
+    body.innerHTML = html;
+  }
+
+  function openModal(ev) {
+    const modal = $('itModal');
+    modal.classList.add('open');
+    if (ev) {
+      $('itModalTitle').textContent = 'Editar evento';
+      $('fTitle').value = ev.title || '';
+      $('fStart').value = ev.start || '';
+      $('fEnd').value = ev.end || '';
+      $('fDesc').value = ev.desc || '';
+      $('fCat').value = ev.cat || 'other';
+      $('fJg').value = ev.jg || '';
+      editingId = ev.id;
+    } else {
+      $('itModalTitle').textContent = 'Nuevo evento';
+      $('fTitle').value = '';
+      $('fStart').value = '';
+      $('fEnd').value = '';
+      $('fDesc').value = '';
+      $('fCat').value = 'sightseeing';
+      $('fJg').value = '';
+      editingId = null;
+    }
+  }
+
+  function closeModal() {
+    $('itModal').classList.remove('open');
+    editingId = null;
+  }
+
+  window._addEvent = function() { openModal(null); };
+
+  window._editEvent = function(id) {
+    const ev = events.find(e => e.id === id);
+    if (ev) openModal(ev);
+  };
+
+  window._delEvent = function(id) {
+    if (!confirm('¿Eliminar este evento?')) return;
+    events = events.filter(e => e.id !== id);
+    saveEvents();
+    renderDay();
+  };
+
+  $('itPrev').addEventListener('click', function() {
+    const dates = getAllDates();
+    if (dates.length === 0) return;
+    const curStr = fmtDate(currentDate);
+    let idx = dates.indexOf(curStr);
+    if (idx <= 0) idx = dates.length - 1;
+    else idx--;
+    currentDate = new Date(dates[idx] + 'T12:00:00');
+    renderDay();
+  });
+
+  $('itNext').addEventListener('click', function() {
+    const dates = getAllDates();
+    if (dates.length === 0) return;
+    const curStr = fmtDate(currentDate);
+    let idx = dates.indexOf(curStr);
+    if (idx === -1 || idx >= dates.length - 1) idx = 0;
+    else idx++;
+    currentDate = new Date(dates[idx] + 'T12:00:00');
+    renderDay();
+  });
+
+  $('itForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const title = $('fTitle').value.trim();
+    if (!title) return;
+
+    const obj = {
+      id: editingId || 'e' + Date.now() + Math.random().toString(36).slice(2,6),
+      date: fmtDate(currentDate),
+      start: $('fStart').value || '',
+      end: $('fEnd').value || '',
+      title: title,
+      desc: $('fDesc').value.trim() || '',
+      cat: $('fCat').value,
+      jg: $('fJg').value.trim() || ''
+    };
+
+    if (editingId) {
+      const idx = events.findIndex(e => e.id === editingId);
+      if (idx !== -1) events[idx] = obj;
+    } else {
+      events.push(obj);
+    }
+
+    saveEvents();
+    closeModal();
+    renderDay();
+  });
+
+  $('itFormCancel').addEventListener('click', closeModal);
+  $('itModalBg').addEventListener('click', closeModal);
+
+  // ===== COUNTDOWN =====
+  const TARGET = new Date('2026-07-03T22:15:00-03:00');
+  const dEl = $('days'), hEl = $('hours'), mEl = $('minutes'), sEl = $('seconds');
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function tick() {
+    const diff = TARGET.getTime() - Date.now();
+    if (diff <= 0) {
+      dEl.textContent = '00'; hEl.textContent = '00'; mEl.textContent = '00'; sEl.textContent = '00';
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    dEl.textContent = pad(d); hEl.textContent = pad(h); mEl.textContent = pad(m); sEl.textContent = pad(s);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+
+  // ===== Background slideshow =====
+  const bgLayers = [0,1,2,3].map(i => $('bg' + i));
+  let bgIdx = 0;
+
+  function nextBg() {
+    bgLayers[bgIdx].classList.remove('active');
+    bgIdx = (bgIdx + 1) % bgLayers.length;
+    bgLayers[bgIdx].classList.add('active');
+  }
+
+  setInterval(nextBg, 7000);
+
+  // ===== Fireworks =====
+  const fw = $('fireworks');
+  const ctx = fw.getContext('2d');
+  let fwW, fwH;
+
+  function resizeFW() {
+    fwW = fw.width = window.innerWidth;
+    fwH = fw.height = window.innerHeight;
+  }
+  resizeFW();
+  window.addEventListener('resize', resizeFW);
+
+  const rockets = [];
+  const sparks = [];
+  const GRAVITY = 0.05;
+
+  function rand(min, max) { return Math.random() * (max - min) + min; }
+
+  function launchRocket() {
+    const x = rand(50, fwW - 50);
+    const targetY = rand(60, fwH * 0.45);
+    rockets.push({ x, y: fwH + 10, targetY, vx: rand(-0.3, 0.3), vy: rand(-4, -3), trail: [] });
+  }
+
+  function explode(x, y) {
+    const count = 40 + Math.floor(rand(0, 30));
+    const hue = Math.floor(rand(0, 360));
+    for (let i = 0; i < count; i++) {
+      const angle = rand(0, Math.PI * 2);
+      const speed = rand(1, 4);
+      sparks.push({
+        x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed - 0.5,
+        life: 1, decay: rand(0.008, 0.025), hue: hue + rand(-30, 30),
+        size: rand(1.5, 3.5)
+      });
+    }
+  }
+
+  function launchSchedule() {
+    if (Math.random() < 0.6) launchRocket();
+    if (Math.random() < 0.35) setTimeout(() => launchRocket(), rand(200, 600));
+  }
+
+  function drawFW() {
+    ctx.clearRect(0, 0, fwW, fwH);
+
+    for (let i = rockets.length - 1; i >= 0; i--) {
+      const r = rockets[i];
+      r.vy += GRAVITY * 0.3;
+      r.x += r.vx;
+      r.y += r.vy;
+      r.trail.push({ x: r.x, y: r.y });
+      if (r.trail.length > 10) r.trail.shift();
+
+      ctx.beginPath();
+      for (let t = 0; t < r.trail.length; t++) {
+        ctx[t === 0 ? 'moveTo' : 'lineTo'](r.trail[t].x, r.trail[t].y);
+      }
+      ctx.strokeStyle = 'rgba(255,215,0,' + (0.3 * r.trail.length / 10) + ')';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      if (r.y <= r.targetY || r.vy > 0) {
+        explode(r.x, r.y);
+        rockets.splice(i, 1);
+      }
+    }
+
+    for (let i = sparks.length - 1; i >= 0; i--) {
+      const s = sparks[i];
+      s.x += s.vx;
+      s.y += s.vy;
+      s.vy += GRAVITY;
+      s.vx *= 0.99;
+      s.life -= s.decay;
+      if (s.life <= 0) { sparks.splice(i, 1); continue; }
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
+      ctx.fillStyle = 'hsla(' + s.hue + ',100%,70%,' + s.life + ')';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(drawFW);
+  }
+
+  launchSchedule();
+  setTimeout(() => launchSchedule(), 300);
+  setTimeout(() => launchSchedule(), 700);
+  drawFW();
+
+  // ===== Floating particles =====
+  const pt = $('particles');
+  const pctx = pt.getContext('2d');
+  let pW, pH;
+
+  function resizePT() {
+    pW = pt.width = window.innerWidth;
+    pH = pt.height = window.innerHeight;
+  }
+  resizePT();
+  window.addEventListener('resize', resizePT);
+
+  const motes = [];
+  for (let i = 0; i < 40; i++) {
+    motes.push({
+      x: Math.random() * pW, y: Math.random() * pH,
+      vx: -0.2 + Math.random() * 0.4, vy: -0.3 - Math.random() * 0.5,
+      size: 1 + Math.random() * 3, alpha: 0.1 + Math.random() * 0.4,
+      life: Math.random() * Math.PI * 2,
+    });
+  }
+
+  function drawPT() {
+    pctx.clearRect(0, 0, pW, pH);
+    for (const m of motes) {
+      m.x += m.vx; m.y += m.vy;
+      m.life += 0.02;
+      if (m.y < -10) { m.y = pH + 10; m.x = Math.random() * pW; }
+      if (m.x < -10 || m.x > pW + 10) { m.x = Math.random() * pW; m.y = Math.random() * pH; }
+      const flicker = 0.5 + 0.5 * Math.sin(m.life);
+      pctx.beginPath();
+      pctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
+      pctx.fillStyle = `rgba(255,215,0,${m.alpha * flicker})`;
+      pctx.fill();
+    }
+    requestAnimationFrame(drawPT);
+  }
+  drawPT();
+
+  // ===== Init =====
+  loadEvents();
+  renderDay();
+})();
+</script>
+</body>
+</html>
