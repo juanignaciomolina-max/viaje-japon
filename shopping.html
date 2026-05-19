@@ -798,17 +798,19 @@ main {
     doSearch('');
   }
 
+  const NFD = str => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   function toUSD(yen) { return (yen * USD_RATE).toFixed(0); }
   function toARS(yen) { return (yen * ARS_RATE * 140).toFixed(0); }
 
   function findCategoryFallback(query) {
-    const q = query.toLowerCase();
+    const q = NFD(query.toLowerCase());
     const words = q.split(/\s+/).filter(w => w.length > 2);
 
     const cats = new Set();
     SHOPPING_DATA.forEach(r => {
+      const rItem = NFD(r.item);
       words.forEach(w => {
-        if (r.item.includes(w)) {
+        if (rItem.includes(w)) {
           cats.add(r.item);
         }
       });
@@ -823,7 +825,7 @@ main {
   }
 
   function doSearch(query) {
-    const q = query.toLowerCase().trim();
+    const q = NFD(query.toLowerCase().trim());
 
     let results;
     if (!q) {
@@ -832,7 +834,7 @@ main {
       const words = q.split(/\s+/).filter(w => w.length > 1);
 
       results = SHOPPING_DATA.filter(r => {
-        const haystack = (r.item + ' ' + r.title + ' ' + r.desc + ' ' + r.shop).toLowerCase();
+        const haystack = NFD((r.item + ' ' + r.title + ' ' + r.desc + ' ' + r.shop).toLowerCase());
         if (words.length > 1) {
           return words.every(w => haystack.includes(w));
         }
