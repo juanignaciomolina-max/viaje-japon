@@ -672,7 +672,7 @@ body {
     {id:'d1',date:'2026-07-03',start:'',end:'',title:'Salida de Buenos Aires',desc:'Vuelo a Japón desde Ezeiza ~30h',cat:'transport'},
     {id:'d2',date:'2026-07-05',start:'17:00',end:'17:30',title:'Llegada a Tokyo',desc:'Aterrizamos en Narita/Haneda',cat:'transport'},
     {id:'d3',date:'2026-07-05',start:'17:30',end:'00:00',title:'Cena, paseo y descanso',desc:'Primera noche en Tokyo',cat:'food'},
-    {id:'h6',date:'2026-07-05',start:'',end:'',title:'APA Hotel Shinjuku Kabukicho Tower',desc:'Kabukichō 1-20-2 · Check-in 15:00 · Check-out 9 jul',cat:'hotel',addr:'Kabukicho 1-20-2, Shinjuku-ku, Tokyo, Japón',web:'https://www3.apahotel.com/hotel/syutoken/tokyo/shinjuku-kabukichotower/'},
+    {id:'h6',date:'2026-07-05',start:'',end:'',title:'APA Hotel Shinjuku Kabukicho Tower',desc:'Kabukichō 1-20-2 · Check-in 15:00 · Check-out 9 jul',cat:'hotel',addr:'APA Hotel Shinjuku Kabukicho Tower, Kabukicho 1-20-2, Shinjuku-ku, Tokyo, Japón',web:'https://www3.apahotel.com/hotel/syutoken/tokyo/shinjuku-kabukichotower/'},
     {id:'d4',date:'2026-07-06',start:'08:00',end:'11:30',title:'Yoyogi Park · Santuario Meiji · Museo Watari-um',desc:'Paseo por Shibuya/Harajuku',cat:'sightseeing'},
     {id:'d5',date:'2026-07-06',start:'11:30',end:'14:00',title:'Hoka · Uniqlo · Bic Camera · Shibuya · Yodobashi',desc:'Compras por Shibuya',cat:'shopping'},
     {id:'d6',date:'2026-07-06',start:'14:00',end:'15:00',title:'Almuerzo',cat:'food'},
@@ -728,7 +728,7 @@ body {
     {id:'d52',date:'2026-07-22',start:'09:00',end:'19:00',title:'Naoshima',desc:'Isla del arte · Museo Chichu, Benesse House',cat:'museum'},
     {id:'d53',date:'2026-07-23',start:'09:00',end:'19:00',title:'Onomichi',desc:'Templos y caminata con vista al mar',cat:'sightseeing'},
     {id:'d54',date:'2026-07-24',start:'10:00',end:'15:00',title:'Llegada hotel Tokyo · descanso · almuerzo',cat:'hotel'},
-    {id:'h7',date:'2026-07-24',start:'',end:'',title:'APA Hotel Higashi Shinjuku Kabukicho Higashi',desc:'Kabukichō 2-17-7 · Check-in 15:00 · Check-out 2 ago',cat:'hotel',addr:'Kabukicho 2-17-7, Shinjuku-ku, Tokyo, Japón',web:'https://www3.apahotel.com/hotel/syutoken/tokyo/higashishinjuku-kabukicho-higashi/'},
+    {id:'h7',date:'2026-07-24',start:'',end:'',title:'APA Hotel Higashi Shinjuku Kabukicho Higashi',desc:'Kabukichō 2-17-7 · Check-in 15:00 · Check-out 2 ago',cat:'hotel',addr:'APA Hotel Higashi Shinjuku Kabukicho Higashi, 2-17-7 Kabuki-cho, Shinjuku-ku, Tokyo, Japón',web:'https://www3.apahotel.com/hotel/syutoken/tokyo/higashishinjuku-kabukicho-higashi/'},
     {id:'d55',date:'2026-07-24',start:'16:00',end:'17:00',title:'Nakano / Koenji',cat:'sightseeing'},
     {id:'d56',date:'2026-07-25',start:'',end:'',title:'FIREWORKS (Hanabi)',desc:'Festival de fuegos artificiales 🎆',cat:'festival'},
     {id:'d57',date:'2026-07-26',start:'',end:'',title:'Museo Ghibli',desc:'Mitaka · Reserva con anticipación',cat:'museum',jg:'https://www.japan-guide.com/e/e3034.html'},
@@ -812,8 +812,7 @@ body {
       const timeStr = ev.start && ev.end ? ev.start + ' – ' + ev.end : (ev.start ? 'Desde ' + ev.start : 'Todo el día');
       const timeClass = ev.start ? 'ev-time' : 'it-all-day';
       const descHtml = ev.desc ? '<div class="ev-desc">' + ev.desc + '</div>' : '';
-      const mapsTitle = ev.title.replace(/\s*\([^)]*\)/g, '').trim();
-      const mapsQuery = ev.addr ? (mapsTitle + ', ' + ev.addr) : (ev.title + ' Japan');
+      const mapsQuery = ev.addr || (ev.title + ' Japan');
       const mapsLink = '<a href="https://www.google.com/maps?q=' + encodeURIComponent(mapsQuery) + '" target="_blank" class="gmaps-link">📍 Google Maps</a>';
       const jgHtml = ev.jg ? '<a href="' + ev.jg + '" target="_blank" class="ev-jg">🔍 Japan-Guide ↗</a>' : '';
       const jgSearch = !ev.jg ? '<a href="https://www.japan-guide.com/search/?q=' + encodeURIComponent(ev.title) + '" target="_blank" class="jg-search">🔍 Buscar en Japan-Guide</a>' : '';
