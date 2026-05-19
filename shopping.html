@@ -236,6 +236,52 @@ main {
   letter-spacing: 2px;
   line-height: 1.8;
 }
+.brand-card {
+  background: rgba(255,215,0,0.04);
+  border: 1px solid rgba(255,215,0,0.12);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 10px;
+}
+.brand-card .bc-title {
+  font-family: var(--font-pop);
+  font-size: 13px;
+  color: var(--gold);
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+.brand-card .bc-links {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.brand-card .bc-links a {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-family: var(--font-maru);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: all 0.25s;
+  flex: 1 0 auto;
+  text-align: center;
+}
+.bc-maps { background: rgba(0,229,255,0.12); color: var(--cyan); }
+.bc-maps:hover { background: rgba(0,229,255,0.22); }
+.bc-amazon { background: rgba(255,153,0,0.1); color: #ff9900; }
+.bc-amazon:hover { background: rgba(255,153,0,0.2); }
+.bc-yahoo { background: rgba(255,0,102,0.1); color: #ff0066; }
+.bc-yahoo:hover { background: rgba(255,0,102,0.2); }
+.bc-google { background: rgba(66,133,244,0.12); color: #4285f4; }
+.bc-google:hover { background: rgba(66,133,244,0.22); }
+.bc-web { background: rgba(255,255,255,0.05); color: var(--white); }
+.bc-web:hover { background: rgba(255,255,255,0.1); }
+.brand-card .bc-note {
+  margin-top: 10px;
+  font-size: 9px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 1px;
+  text-align: center;
+  line-height: 1.5;
+}
 .external-search {
   margin-top: 12px;
   padding: 14px;
@@ -327,7 +373,8 @@ main {
     'cerámica', 'whisky japonés', 'videojuegos', 'vinitos', 'perfume',
     'nintendo', 'pokemon', 'manga', 'ghibli', 'electrónicos',
     'denim', 'souvenirs', 'tazas', 'incienso', 'stationery',
-    'nike', 'adidas', 'gucci', 'bape', 'supreme', 'comme des garçons'
+    'nike', 'adidas', 'gucci', 'bape', 'supreme', 'comme des garçons',
+    'united nude', 'yohji yamamoto', 'undercover', 'visvim', 'kapital', 'sacai'
   ];
 
   const SHOPPING_DATA = [
@@ -435,11 +482,12 @@ main {
     { item: 'ropa marcas', city: 'Tokyo', title: 'Shibuya PARCO', desc: 'Moda joven + marcas de lujo. Marcas: Comme des Garçons Pocket, Kenzo, Valentino, Saint Laurent, Balenciaga, Ambush, Human Made, A Bathing Ape BAPE, WTAPS, Neighborhood, Mastermind Japan, fragment design, EVISU, Sacai, Undercover, Readymade, POLIQUANT, Auralee, Mame Kurogouchi.', price: 20000, unit: '¥3,000–200,000', emoji: '🧥', shop: 'Shibuya PARCO', addr: '15-1 Udagawacho, Shibuya-ku, Tokyo' },
     { item: 'ropa marcas', city: 'Tokyo', title: 'Ginza Six', desc: 'Lujo en Ginza. Marcas: Issey Miyake, Kenzo, Valentino, Fendi, Celine, Dior, Loewe, Bottega Veneta, Off-White, Ambush, Sacai, Valentino, Yohji Yamamoto, Comme des Garçons, Tsutaya Books.', price: 40000, unit: '¥5,000–500,000+', emoji: '🧥', shop: 'Ginza Six', addr: '6-10-1 Ginza, Chuo-ku, Tokyo' },
     { item: 'ropa marcas', city: 'Tokyo', title: 'Dover Street Market Ginza', desc: 'La meca del streetwear de lujo. Marcas: Comme des Garçons, Supreme, NikeLab, Sacai, Undercover, Gucci, Moncler, Palm Angels, Fear of God, Off-White, Stone Island, Stüssy, Rick Owens, Ann Demeulemeester, WTAPS, Neighborhood, BAPE, Human Made, Kolor, Junya Watanabe, Noir Kei Ninomiya, Celine, Balenciaga.', price: 30000, unit: '¥5,000–300,000', emoji: '🧥', shop: 'Dover Street Market Ginza', addr: '6-9-5 Ginza, Chuo-ku, Tokyo' },
-    { item: 'ropa marcas', city: 'Tokyo', title: 'Harajuku · Cat Street / Ura-Harajuku', desc: 'Streetwear y marcas independientes. Marcas: BAPE, Neighborhood, WTAPS, Supreme, Stüssy, Undefeated, Carhartt WIP, Huf, The North Face Purple Label, Nanamica, Snow Peak, Kapital, Porter Classic, FR2, BlackEyePatch, Girls Don\'t Cry, Cav Empt, C.E, Wacko Maria, Goods 01, RHC Ron Herman, Journal Standard, Beams.', price: 15000, unit: '¥2,000–100,000', emoji: '🧥', shop: 'Cat Street Harajuku', addr: 'Jingumae, Shibuya-ku, Tokyo' },
+    { item: 'ropa marcas', city: 'Tokyo', title: 'Harajuku · Cat Street / Ura-Harajuku', desc: 'Streetwear y marcas independientes. Marcas: BAPE, Neighborhood, WTAPS, Supreme, Stüssy, Undefeated, Carhartt WIP, Huf, The North Face Purple Label, Nanamica, Snow Peak, Kapital, Porter Classic, FR2, BlackEyePatch, Girls Don\'t Cry, Cav Empt, C.E, Wacko Maria, Mister Gentleman, SOPHNET, F.C. Real Bristol, Needles, South2 West8, Goods 01, RHC Ron Herman, Journal Standard, Beams, Toy's McCoy, Buzz Rickson's, The Real McCoy\'s.', price: 15000, unit: '¥2,000–100,000', emoji: '🧥', shop: 'Cat Street Harajuku', addr: 'Jingumae, Shibuya-ku, Tokyo' },
     { item: 'ropa marcas', city: 'Tokyo', title: 'Omotesando Hills', desc: 'Avenida de la moda. Marcas: Dior, Prada, Louis Vuitton, Tory Burch, Tommy Hilfiger, Ralph Lauren, Zara, H&M, Theory, Club Monaco, A.P.C., Moussy, SLY, Miu Miu, Tod\'s, Bottega Veneta, Celine, Saint Laurent, Balenciaga, Valentino, Fendi, Kenzo, Issey Miyake, Yohji Yamamoto, Comme des Garçons.', price: 30000, unit: '¥3,000–500,000+', emoji: '🧥', shop: 'Omotesando Hills', addr: '4-12-10 Jingumae, Shibuya-ku, Tokyo' },
     { item: 'ropa marcas', city: 'Tokyo', title: 'Shinjuku Marui (0101)', desc: 'Moda joven japonesa. Marcas: Beams, United Arrows, Journal Standard, Ships, Moussy, SLY, Emoda, Dazzlin, Theory, Helmut Lang, APC, Maison Kitsuné, Issey Miyake, Comme des Garçons Play, Kenzo, Ambush, Sacai, Nanamica, Snow Peak, White Mountaineering, The North Face, Patagonia, Arc\'teryx.', price: 12000, unit: '¥2,000–80,000', emoji: '🧥', shop: 'Shinjuku Marui', addr: '3-1-26 Shinjuku, Shinjuku-ku, Tokyo' },
     { item: 'ropa marcas', city: 'Tokyo', title: 'Lumine Shinjuku', desc: 'Moda femenina japonesa. Marcas: Snidel, Lily Brown, Mila Owen, FRAY I.D, Emoda, Dazzlin, Coco Deal, Moussy, SLY, Rirandture, JUSGLITTY, Titty & Co., Ungrid, MURUA, Mite, Hallohallo, Beams, United Arrows, Journal Standard, Ships.', price: 10000, unit: '¥2,000–50,000', emoji: '🧥', shop: 'Lumine Shinjuku', addr: '1-1-5 Nishi-Shinjuku, Shinjuku-ku, Tokyo' },
-    { item: 'ropa marcas', city: 'Tokyo', title: 'Daikanyama / Nakameguro', desc: 'Boutiques independientes de diseñador. Marcas: Visvim, Kapital, Nanamica, Snow Peak, Aurora, Wise, Writer, MHL, Margaret Howell, Beams, Journal Standard, Ships, Tomorrowland, United Arrows, Graphpaper, Minä Perhonen.', price: 15000, unit: '¥3,000–80,000', emoji: '🧥', shop: 'Daikanyama', addr: 'Daikanyama, Shibuya-ku, Tokyo' },
+    { item: 'ropa marcas', city: 'Tokyo', title: 'United Nude Aoyama', desc: 'Zapatos de diseño vanguardista. Marcas: United Nude, también venden collabs con diseñadores iraníes-holandeses. Cerca de Omotesando.', price: 30000, unit: '¥20,000–60,000', emoji: '👞', shop: 'United Nude Aoyama', addr: '5-5-1 Minamiaoyama, Minato-ku, Tokyo' },
+    { item: 'ropa marcas', city: 'Tokyo', title: 'Daikanyama / Nakameguro', desc: 'Boutiques independientes de diseñador. Marcas: Visvim, Kapital, Nanamica, Snow Peak, Aurora, Wise, Writer, MHL, Margaret Howell, Mister Gentleman, CAV EMPT, POLIQUANT, Auralee, Kuon, Bed j.w. Ford, Mame Kurogouchi, Tao Kurumi, Beams, Journal Standard, Ships, Tomorrowland, United Arrows, Graphpaper, Minä Perhonen, and wander, meanswhile, Mountain Research, South2 West8.', price: 15000, unit: '¥3,000–80,000', emoji: '🧥', shop: 'Daikanyama', addr: 'Daikanyama, Shibuya-ku, Tokyo' },
     { item: 'ropa marcas', city: 'Tokyo', title: 'Beams Harajuku (flagship)', desc: 'La tienda conceptual más icónica de Japón. Marcas: Beams original, Beams Plus, Beams Boy, International Gallery Beams, Ray Beams, Uniform Circus. También venden Comme des Garçons, Visvim, Nanamica, Our Legacy, Norse Projects, Stüssy, Carhartt WIP.', price: 12000, unit: '¥3,000–50,000', emoji: '🧥', shop: 'Beams Harajuku', addr: '3-25-15 Jingumae, Shibuya-ku, Tokyo' },
     { item: 'ropa marcas', city: 'Tokyo', title: 'United Arrows Harajuku', desc: 'Gran selección de marcas. Marcas: United Arrows, Beauty & Youth, Monkey Time, BAPE, Comme des Garçons, Issey Miyake, Yohji Yamamoto, Undercover, Visvim, Kapital, Sacai, Ambush, Polo Ralph Lauren, Tommy Hilfiger, Carhartt WIP, Stüssy, Nike, New Balance, Adidas, HOKA, Salomon, Asics.', price: 12000, unit: '¥2,000–50,000', emoji: '🧥', shop: 'United Arrows Harajuku', addr: '3-28-1 Jingumae, Shibuya-ku, Tokyo' },
     { item: 'ropa marcas', city: 'Tokyo', title: 'Shimokitazawa', desc: 'Ropa vintage y second-hand. Marcas: Chicago, Flamingo, Haight & Ashbury, New York Joe Exchange, Tanpopo House, Modescape. Ideal para ropa usada de marca a buen precio.', price: 3000, unit: '¥1,000–10,000', emoji: '🧥', shop: 'Shimokitazawa', addr: 'Shimokitazawa, Setagaya-ku, Tokyo' },
@@ -575,13 +623,29 @@ main {
   }
 
   function renderResults(results, query) {
+    const encQuery = encodeURIComponent(query);
+    const encCity = encodeURIComponent(activeCity);
+
     if (results.length === 0) {
       const catFallback = findCategoryFallback(query);
 
-      let html = '<div class="not-found">✨ No encontramos "' + query + '" en nuestra guía</div>';
+      let html = '';
+
+      // Brand search card: always show for specific queries
+      html += '<div class="brand-card">'
+        + '<div class="bc-title">🔍 ¿Dónde comprar "' + query + '" en ' + activeCity + '?</div>'
+        + '<div class="bc-links">'
+        + '<a href="https://www.google.com/maps/search/' + encQuery + '+' + encCity + '+japan" target="_blank" class="bc-maps">📍 Ver tiendas en Maps</a>'
+        + '<a href="https://www.amazon.co.jp/s?k=' + encQuery + '" target="_blank" class="bc-amazon">📦 Amazon Japón</a>'
+        + '<a href="https://shopping.yahoo.co.jp/search?p=' + encQuery + '" target="_blank" class="bc-yahoo">🛍️ Yahoo Shopping JP</a>'
+        + '<a href="https://www.google.com/search?tbm=shop&q=' + encQuery + '+japan" target="_blank" class="bc-google">🛒 Google Shopping</a>'
+        + '<a href="https://www.google.com/search?q=' + encQuery + '+japan+' + encCity + '+tienda" target="_blank" class="bc-web">🌐 Búsqueda general</a>'
+        + '</div>'
+        + '<div class="bc-note">💡 No tenemos "' + query + '" en nuestra guía, pero estos links te llevan directo a donde comprarla online o ver tiendas físicas en Maps</div>'
+        + '</div>';
 
       if (catFallback.length > 0) {
-        html += '<div style="margin:6px 0 10px;font-size:10px;letter-spacing:1px;color:rgba(255,215,0,0.4);text-align:center;">⬇️ Categorías relacionadas en ' + activeCity + ':</div>';
+        html += '<div style="margin:12px 0 8px;font-size:10px;letter-spacing:1px;color:rgba(255,215,0,0.35);text-align:center;">⬇️ Mientras tanto, categorías relacionadas en ' + activeCity + ':</div>';
         catFallback.forEach(r => {
           const mapsQuery = encodeURIComponent(r.shop + ', ' + r.addr);
           const usd = toUSD(r.price);
@@ -597,7 +661,6 @@ main {
             + '<a href="https://www.google.com/maps?q=' + mapsQuery + '" target="_blank" class="gmaps-link">📍 Maps</a>'
             + '</div></div>';
         });
-        html += '<div style="margin-top:10px;font-size:9px;letter-spacing:1px;color:rgba(255,255,255,0.15);text-align:center;">💡 Si buscás algo específico, usá los links de afuera 👇</div>';
       }
 
       resultsList.innerHTML = html;
