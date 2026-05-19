@@ -522,6 +522,27 @@ main {
   function toUSD(yen) { return (yen * USD_RATE).toFixed(0); }
   function toARS(yen) { return (yen * ARS_RATE * 140).toFixed(0); }
 
+  function findCategoryFallback(query) {
+    const q = query.toLowerCase();
+    const words = q.split(/\s+/).filter(w => w.length > 2);
+
+    const cats = new Set();
+    SHOPPING_DATA.forEach(r => {
+      words.forEach(w => {
+        if (r.item.includes(w) || r.title.toLowerCase().includes(w) || r.desc.toLowerCase().includes(w)) {
+          cats.add(r.item);
+        }
+      });
+    });
+
+    if (cats.size > 0) {
+      const allCat = SHOPPING_DATA.filter(r => cats.has(r.item));
+      const cityCat = allCat.filter(r => r.city === activeCity);
+      return (cityCat.length > 0 ? cityCat : allCat).slice(0, 8);
+    }
+    return [];
+  }
+
   function doSearch(query) {
     const q = query.toLowerCase().trim();
     if (!q) return;
@@ -543,10 +564,10 @@ main {
 
     renderResults(displayResults, query);
 
-    // External search links
     const encQuery = encodeURIComponent(query);
+    const encCity = encodeURIComponent(activeCity);
     esLinks.innerHTML = ''
-      + '<a href="https://www.google.com/maps/search/' + encQuery + '+japan+store" target="_blank" class="es-github">📍 Maps — tiendas en Japón</a>'
+      + '<a href="https://www.google.com/maps/search/' + encQuery + '+' + encCity + '+japan" target="_blank" class="es-github">📍 Maps — ' + activeCity + '</a>'
       + '<a href="https://www.google.com/search?tbm=shop&q=' + encQuery + '+japan" target="_blank" class="es-google">🛒 Google Shopping</a>'
       + '<a href="https://www.amazon.co.jp/s?k=' + encQuery + '" target="_blank" class="es-amazon">📦 Amazon Japón</a>'
       + '<a href="https://shopping.yahoo.co.jp/search?p=' + encQuery + '" target="_blank" class="es-yahoo">🛍️ Yahoo Shopping JP</a>'
@@ -557,26 +578,38 @@ main {
 
   function renderResults(results, query) {
     if (results.length === 0) {
-      const fallback = SHOPPING_DATA.filter(r => r.city === activeCity).slice(0, 6);
-      let fallbackHtml = '<div class="not-found">✨ No encontramos sugerencias para "' + query + '" en ' + activeCity + '<br>Probá con otra palabra o usá los links de búsqueda online acá abajo</div>';
-      if (fallback.length > 0) {
-        fallbackHtml += '<div style="margin-top:8px;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,0.2);text-align:center;margin-bottom:6px;">⬇️ Mientras tanto, tiendas en ' + activeCity + ':</div>';
-        fallback.forEach(r => {
-          const mapsQuery = encodeURIComponent(r.shop + ', ' + r.addr);
-          const usd = toUSD(r.price);
-          fallbackHtml += '<div class="result-item" style="opacity:0.5;">'
-            + '<div class="ri-title"><span class="item-emoji">' + r.emoji + '</span>' + r.title + '</div>'
-            + '<div class="ri-desc">' + r.desc + '</div>'
-            + '<div class="ri-meta">'
-            + '<span class="price-yen">¥ ' + r.unit + '</span>'
-            + '<span class="price-usd">US$ ~' + usd + '</span>'
-            + '</div>'
-            + '<div class="ri-links">'
-            + '<a href="https://www.google.com/maps?q=' + mapsQuery + '" target="_blank" class="gmaps-link">📍 Maps</a>'
-            + '</div></div>';
-        });
+      const catFallback = findCategoryFallback(query);
+      const fallback = catFallback.length > 0 ? catFallback : SHOPPING_DATA.filter(r => r.city === activeCity).slice(0, 6);
+
+      let html = '<div class="not-found">✨ No encontramos "' + query + '" exactamente en nuestra guía</div>';
+
+      if (catFallback.length > 0) {
+        html += '<div style="margin:6px 0 10px;font-size:10px;letter-spacing:1px;color:rgba(255,215,0,0.4);text-align:center;">⬇️ Categorías relacionadas en ' + activeCity + ':</div>';
+      } else if (fallback.length > 0) {
+        html += '<div style="margin:6px 0 10px;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,0.2);text-align:center;">⬇️ Tiendas en ' + activeCity + ':</div>';
       }
-      resultsList.innerHTML = fallbackHtml;
+
+      fallback.forEach(r => {
+        const mapsQuery = encodeURIComponent(r.shop + ', ' + r.addr);
+        const usd = toUSD(r.price);
+        html += '<div class="result-item' + (catFallback.length === 0 ? '"' : '"') + '>'
+          + '<div class="ri-title"><span class="item-emoji">' + r.emoji + '</span>' + r.title + '</div>'
+          + '<div class="ri-desc">' + r.desc + '</div>'
+          + '<div class="ri-meta">'
+          + '<span class="price-yen">¥ ' + r.unit + '</span>'
+          + '<span class="price-usd">US$ ~' + usd + '</span>'
+          + '<span class="tag-city">' + CITY_LABELS[r.city] + '</span>'
+          + '</div>'
+          + '<div class="ri-links">'
+          + '<a href="https://www.google.com/maps?q=' + mapsQuery + '" target="_blank" class="gmaps-link">📍 Maps</a>'
+          + '</div></div>';
+      });
+
+      if (catFallback.length > 0) {
+        html += '<div style="margin-top:10px;font-size:9px;letter-spacing:1px;color:rgba(255,255,255,0.15);text-align:center;">💡 Buscá más específico o usá los links de afuera 👇</div>';
+      }
+
+      resultsList.innerHTML = html;
       return;
     }
 
