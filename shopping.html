@@ -741,7 +741,7 @@ main {
         btn.classList.add('active');
         activeCity = city;
         const q = searchInput.value.trim();
-        if (q) doSearch(q);
+        doSearch(q);
       });
       cityTabs.appendChild(btn);
     });
@@ -760,6 +760,9 @@ main {
 
     // Focus search on load
     searchInput.focus();
+
+    // Show all stores in Tokyo by default
+    doSearch('');
   }
 
   function toUSD(yen) { return (yen * USD_RATE).toFixed(0); }
@@ -788,24 +791,26 @@ main {
 
   function doSearch(query) {
     const q = query.toLowerCase().trim();
-    if (!q) return;
 
-    const words = q.split(/\s+/).filter(w => w.length > 1);
+    let results;
+    if (!q) {
+      results = SHOPPING_DATA.filter(r => r.city === activeCity);
+    } else {
+      const words = q.split(/\s+/).filter(w => w.length > 1);
 
-    const results = SHOPPING_DATA.filter(r => {
-      const haystack = (r.item + ' ' + r.title + ' ' + r.desc + ' ' + r.shop).toLowerCase();
-      if (words.length > 1) {
-        return words.every(w => haystack.includes(w));
-      }
-      return haystack.includes(q);
-    });
+      results = SHOPPING_DATA.filter(r => {
+        const haystack = (r.item + ' ' + r.title + ' ' + r.desc + ' ' + r.shop).toLowerCase();
+        if (words.length > 1) {
+          return words.every(w => haystack.includes(w));
+        }
+        return haystack.includes(q);
+      });
 
-    const cityResults = results.filter(r => r.city === activeCity);
-    const otherResults = results.filter(r => r.city !== activeCity);
+      const cityResults = results.filter(r => r.city === activeCity);
+      results = cityResults.length > 0 ? cityResults : results;
+    }
 
-    const displayResults = cityResults.length > 0 ? cityResults : results;
-
-    renderResults(displayResults, query);
+    renderResults(results, query);
 
     const encQuery = encodeURIComponent(query);
     const encCity = encodeURIComponent(activeCity);
