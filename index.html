@@ -105,6 +105,23 @@ body {
   opacity: 0.45;
 }
 
+.header-nav {
+  display: flex; gap: 8px; align-items: center;
+}
+.header-nav a {
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  font-family: var(--font-maru);
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  transition: all 0.25s;
+}
+.header-nav a:hover { color: var(--gold); border-color: rgba(255,215,0,0.2); }
+.header-nav a.active { color: var(--gold); border-color: rgba(255,215,0,0.3); }
+
 .header-countdown {
   display: flex;
   gap: 6px;
@@ -565,6 +582,10 @@ body {
     <span class="header-names">JUANI &amp; SOL</span>
     <span class="header-year">日本 2026</span>
   </div>
+  <nav class="header-nav">
+    <a href="#" class="active">🗓 Itinerario</a>
+    <a href="https://juanignaciomolina-max.github.io/viaje-japon/shopping.html">🛍️ Shopping</a>
+  </nav>
   <div class="header-countdown" id="headerCountdown">
     <div class="hcd-unit"><span class="hcd-num" id="days">00</span><span class="hcd-label">Días</span></div>
     <span class="hcd-sep">:</span>

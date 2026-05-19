@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Finder · Juani & Sol 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&family=Rampart+One&family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --red: #e63946;
+  --gold: #ffd700;
+  --cyan: #00e5ff;
+  --white: #fff;
+  --bg: #0a0a1a;
+  --bg2: #12122a;
+  --font-ja: 'Noto Sans JP', sans-serif;
+  --font-display: 'Rampart One', cursive;
+  --font-pop: 'Mochiy Pop One', sans-serif;
+  --font-maru: 'Zen Maru Gothic', sans-serif;
+}
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-ja);
+  min-height: 100vh;
+}
+.bg-layer {
+  position: fixed; inset: 0; z-index: 0;
+}
+.bg-layer img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center;
+  filter: brightness(0.3) saturate(0.8);
+}
+.bg-layer::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(10,10,26,0.92) 0%, rgba(10,10,26,0.4) 30%, rgba(10,10,26,0.6) 70%, rgba(10,10,26,0.95) 100%);
+  z-index: 1;
+}
+/* ===== HEADER ===== */
+.main-header {
+  position: relative; z-index: 10;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 16px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.15) 100%);
+  backdrop-filter: blur(8px); min-height: 54px;
+}
+.header-left {
+  display: flex; align-items: baseline; gap: 8px;
+}
+.header-names {
+  font-family: var(--font-display);
+  font-size: clamp(16px, 2.8vw, 30px);
+  color: var(--white);
+  text-shadow: 0 0 20px rgba(255,215,0,0.15);
+  letter-spacing: 1px; line-height: 1;
+}
+.header-year {
+  font-family: var(--font-maru);
+  font-size: clamp(9px, 1vw, 12px);
+  letter-spacing: 3px; color: var(--gold); opacity: 0.45;
+}
+.header-nav {
+  display: flex; gap: 8px; align-items: center;
+}
+.header-nav a {
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  font-family: var(--font-maru);
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  transition: all 0.25s;
+}
+.header-nav a:hover { color: var(--gold); border-color: rgba(255,215,0,0.2); }
+.header-nav a.active { color: var(--gold); border-color: rgba(255,215,0,0.3); }
+/* ===== MAIN ===== */
+main {
+  position: relative; z-index: 10;
+  max-width: 640px; margin: 0 auto; padding: 12px 12px 24px;
+}
+.search-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.search-box h2 {
+  font-family: var(--font-pop);
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.search-row {
+  display: flex; gap: 8px;
+}
+.search-row input {
+  flex: 1;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  color: var(--white);
+  font-family: var(--font-maru);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.25s;
+}
+.search-row input:focus { border-color: var(--gold); }
+.search-row input::placeholder { color: rgba(255,255,255,0.15); }
+.search-row button {
+  padding: 10px 20px;
+  background: var(--gold);
+  border: none;
+  border-radius: 10px;
+  color: var(--bg);
+  font-family: var(--font-pop);
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: opacity 0.25s;
+  white-space: nowrap;
+}
+.search-row button:hover { opacity: 0.85; }
+.quick-tags {
+  display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px;
+}
+.quick-tags button {
+  padding: 4px 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  color: rgba(255,255,255,0.35);
+  font-family: var(--font-maru);
+  font-size: 9px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.quick-tags button:hover {
+  background: rgba(255,215,0,0.08);
+  border-color: rgba(255,215,0,0.2);
+  color: var(--gold);
+}
+.city-tabs {
+  display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px;
+}
+.city-tabs button {
+  padding: 6px 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.35);
+  font-family: var(--font-maru);
+  font-size: 10px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.city-tabs button:hover { color: var(--white); border-color: rgba(255,255,255,0.12); }
+.city-tabs button.active { background: rgba(255,215,0,0.1); border-color: rgba(255,215,0,0.25); color: var(--gold); }
+.results {
+  display: none;
+}
+.results.show { display: block; }
+.result-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 8px;
+}
+.result-item .ri-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+.result-item .ri-title .item-emoji { margin-right: 6px; }
+.result-item .ri-desc {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+.result-item .ri-meta {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.result-item .ri-meta span {
+  font-size: 9px;
+  padding: 2px 10px;
+  border-radius: 6px;
+}
+.price-yen {
+  background: rgba(255,215,0,0.08);
+  color: var(--gold);
+}
+.price-usd {
+  background: rgba(0,229,255,0.08);
+  color: var(--cyan);
+}
+.price-ars {
+  background: rgba(255,107,53,0.08);
+  color: #ff6b35;
+}
+.tag-city {
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.4);
+}
+.result-item .ri-links {
+  display: flex; gap: 8px; margin-top: 6px;
+}
+.result-item .ri-links a {
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  opacity: 0.6;
+  transition: opacity 0.25s;
+}
+.result-item .ri-links a:hover { opacity: 1; text-decoration: underline; }
+.gmaps-link { color: var(--cyan); }
+.web-link { color: rgba(255,255,255,0.5); }
+.search-link { color: var(--gold); }
+.not-found {
+  text-align: center;
+  padding: 30px 20px;
+  color: rgba(255,255,255,0.15);
+  font-size: 11px;
+  letter-spacing: 2px;
+  line-height: 1.8;
+}
+.external-search {
+  margin-top: 12px;
+  padding: 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 10px;
+}
+.external-search p {
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+.external-search .es-links {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.external-search .es-links a {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-family: var(--font-maru);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.es-github { background: rgba(255,255,255,0.05); color: var(--white); }
+.es-github:hover { background: rgba(255,255,255,0.1); }
+.es-google { background: rgba(66,133,244,0.15); color: #4285f4; }
+.es-google:hover { background: rgba(66,133,244,0.25); }
+.es-yahoo { background: rgba(255,0,102,0.1); color: #ff0066; }
+.es-yahoo:hover { background: rgba(255,0,102,0.2); }
+.es-amazon { background: rgba(255,153,0,0.1); color: #ff9900; }
+.es-amazon:hover { background: rgba(255,153,0,0.2); }
+@media (max-width: 480px) {
+  .main-header { padding: 8px 10px; min-height: 48px; }
+  main { padding: 8px 8px 16px; }
+  .search-row input { font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="bg-layer">
+  <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1920&q=80" alt="Shibuya shopping">
+</div>
+
+<header class="main-header">
+  <div class="header-left">
+    <span class="header-names">JUANI &amp; SOL</span>
+    <span class="header-year">日本 2026</span>
+  </div>
+  <nav class="header-nav">
+    <a href="https://juanignaciomolina-max.github.io/viaje-japon/">🗓 Itinerario</a>
+    <a href="#" class="active">Shopping</a>
+  </nav>
+</header>
+
+<main>
+  <div class="search-box">
+    <h2>🔍 ¿Qué querés comprar?</h2>
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="Ej: cuchillo, billetera, té, cámara..." autofocus>
+      <button id="searchBtn">Buscar</button>
+    </div>
+    <div class="quick-tags" id="quickTags"></div>
+  </div>
+
+  <div class="city-tabs" id="cityTabs"></div>
+
+  <div class="results" id="results">
+    <div id="resultsList"></div>
+    <div class="external-search" id="externalSearch">
+      <p>🌐 Buscar online</p>
+      <div class="es-links" id="esLinks"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+(function() {
+  const USD_RATE = 0.0067; // 1 yen ~ 0.0067 USD
+  const ARS_RATE = 0.0072; // 1 yen ~ 0.0072 ARS (blue ~140/USD)
+
+  const CITIES = ['Tokyo', 'Kanazawa', 'Kyoto', 'Osaka', 'Okayama', 'Hakone'];
+  const CITY_LABELS = { Tokyo: '🗼 Tokyo', Kanazawa: '🏯 Kanazawa', Kyoto: '⛩️ Kyoto', Osaka: '🍜 Osaka', Okayama: '🏰 Okayama', Hakone: '♨️ Hakone' };
+
+  const QUICK_ITEMS = [
+    'cuchillo cocina', 'billetera', 'té matcha', 'sake', 'anime figures',
+    'cámara', 'reloj', 'zapatillas', 'cosmética japonesa', 'kimono',
+    'cerámica', 'whisky japonés', 'videojuegos', 'vinitos', 'perfume'
+  ];
+
+  const SHOPPING_DATA = [
+    // TOKYO
+    { item: 'cuchillo cocina', city: 'Tokyo', title: 'Kappabashi Street (Kitchen Town)', desc: 'Cuadras enteras de tiendas especializadas en cuchillos. Marcas: Masamoto, Sugimoto, Global.', price: 5000, unit: '¥5,000–50,000', emoji: '🔪', shop: 'Kappabashi Dougu Street', addr: 'Kappabashi, Taito City, Tokyo' },
+    { item: 'cuchillo cocina', city: 'Tokyo', title: 'Tsukiji Outer Market', desc: 'Varios puestos con cuchillos artesanales. Más caro que Kappabashi.', price: 8000, unit: '¥8,000–40,000', emoji: '🔪', shop: 'Tsukiji Outer Market', addr: '4-16-2 Tsukiji, Chuo City, Tokyo' },
+    { item: 'billetera', city: 'Tokyo', title: 'Matsuya Ginza · Isetan Shinjuku', desc: 'Billeteras de marca japonesa (Porter, Yoshida, Tsuchiya Kaban). Cuero de alta calidad.', price: 15000, unit: '¥10,000–35,000', emoji: '👛', shop: 'Isetan Shinjuku', addr: '3-14-1 Shinjuku, Shinjuku-ku, Tokyo' },
+    { item: 'billetera', city: 'Tokyo', title: 'Jimbocho / Kanda', desc: 'Librerías vintage y artículos de cuero. Menos turístico.', price: 8000, unit: '¥8,000–20,000', emoji: '👛', shop: 'Jimbocho', addr: 'Jimbocho, Chiyoda City, Tokyo' },
+    { item: 'té matcha', city: 'Tokyo', title: 'Tsukiji · Ueno · Tokyu Hands', desc: 'Matcha de calidad en tiendas especializadas. Tokyu Hands tiene sección de té con degustación.', price: 2000, unit: '¥1,500–5,000', emoji: '🍵', shop: 'Tokyu Hands Shinjuku', addr: '1-1-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo' },
+    { item: 'anime figures', city: 'Tokyo', title: 'Akihabara', desc: 'Radio Kaikan, Mandarake, Kotobukiya. Miles de figures nuevas y usadas.', price: 3000, unit: '¥1,000–50,000', emoji: '🎎', shop: 'Radio Kaikan Akihabara', addr: '1-15-16 Sotokanda, Chiyoda City, Tokyo' },
+    { item: 'anime figures', city: 'Tokyo', title: 'Nakano Broadway', desc: 'Mandarake Nakano — 4 pisos de todo. Mejores precios que Akihabara.', price: 2000, unit: '¥1,000–30,000', emoji: '🎎', shop: 'Nakano Broadway', addr: '5-52-15 Nakano, Nakano-ku, Tokyo' },
+    { item: 'cámara', city: 'Tokyo', title: 'Shinjuku · Yodobashi Camera / Bic Camera', desc: 'Cámaras nuevas y usadas. Yodobashi Camera en Shinjuku tiene 6 pisos. Verificar garantía internacional.', price: 50000, unit: '¥30,000–200,000', emoji: '📷', shop: 'Yodobashi Camera Shinjuku', addr: '1-11-1 Nishishinjuku, Shinjuku-ku, Tokyo' },
+    { item: 'cámara', city: 'Tokyo', title: 'Shinjuku · Map Camera', desc: 'Especialistas en cámaras usadas de alta gama. Leica, Fuji, Sony.', price: 80000, unit: '¥50,000–400,000', emoji: '📷', shop: 'Map Camera', addr: '3-23-14 Shinjuku, Shinjuku-ku, Tokyo' },
+    { item: 'reloj', city: 'Tokyo', title: 'Nakano Broadway', desc: 'Relojerías de segunda mano. Grand Seiko, Seiko, Citizen, Rolex. Buenos precios usados.', price: 30000, unit: '¥10,000–300,000', emoji: '⌚', shop: 'Nakano Broadway', addr: '5-52-15 Nakano, Nakano-ku, Tokyo' },
+    { item: 'reloj', city: 'Tokyo', title: 'Ginza · Wako / Mitsukoshi', desc: 'Relojerías de lujo. Grand Seiko boutique.', price: 100000, unit: '¥50,000–1,000,000+', emoji: '⌚', shop: 'Wako Ginza', addr: '4-5-11 Ginza, Chuo City, Tokyo' },
+    { item: 'zapatillas', city: 'Tokyo', title: 'Shibuya · atmos / ABC-Mart', desc: 'Zapatillas edición limitada. atmos Shibuya tiene collabs exclusivas de Japón.', price: 15000, unit: '¥8,000–40,000', emoji: '👟', shop: 'atmos Shibuya', addr: '2-24-7 Shibuya, Shibuya-ku, Tokyo' },
+    { item: 'cosmética japonesa', city: 'Tokyo', title: 'Matsumoto Kiyoshi · Don Quijote', desc: 'Shiseido, SK-II, Hada Labo, Biore, DHC. Don Quijote abre 24h, ideal para último momento.', price: 2000, unit: '¥1,000–15,000', emoji: '💄', shop: 'Don Quijote Shinjuku', addr: '1-16-5 Kabukicho, Shinjuku-ku, Tokyo' },
+    { item: 'kimono', city: 'Tokyo', title: 'Asakusa · Nakamise Street', desc: 'Kimonos nuevos y usados. Tiendas tradicionales cerca del templo Sensoji.', price: 10000, unit: '¥5,000–100,000', emoji: '👘', shop: 'Nakamise-dori Asakusa', addr: 'Asakusa, Taito City, Tokyo' },
+    { item: 'whisky japonés', city: 'Tokyo', title: 'Shibuya · Yamanashi-Ken · Liquor Mountain', desc: 'Yamazaki, Hibiki, Nikka. Licorerías especializadas. Difícil conseguir los más famosos a buen precio.', price: 5000, unit: '¥3,000–50,000', emoji: '🥃', shop: 'Liquor Mountain Shibuya', addr: '1-1-1 Shibuya, Shibuya-ku, Tokyo' },
+    { item: 'videojuegos', city: 'Tokyo', title: 'Akihabara · Super Potato / Retro Game Camp', desc: 'Juegos retro y nuevos. Super Potato tiene 4 pisos de clásicos.', price: 3000, unit: '¥1,000–15,000', emoji: '🎮', shop: 'Super Potato Akihabara', addr: '1-11-2 Sotokanda, Chiyoda City, Tokyo' },
+    { item: 'perfume', city: 'Tokyo', title: 'Ginza · Itoya / Loft', desc: 'Perfumes japoneses y de diseñador. Loft Shinjuku tiene sección de fragancias únicas.', price: 5000, unit: '¥3,000–20,000', emoji: '🧴', shop: 'Loft Shinjuku', addr: '2-1-1 Shinjuku, Shinjuku-ku, Tokyo' },
+
+    // KANAZAWA
+    { item: 'cuchillo cocina', city: 'Kanazawa', title: 'Omicho Market', desc: 'Puestos de cuchillos artesanales de la región de Ishikawa (Hakusan).', price: 7000, unit: '¥5,000–40,000', emoji: '🔪', shop: 'Omicho Market', addr: '1-10-1 Kamiomicho, Kanazawa, Ishikawa' },
+    { item: 'cerámica', city: 'Kanazawa', title: 'Higashi Chaya District · Kutaniyaki shops', desc: 'Cerámica Kutani (porcelana tradicional). Tazas de té, platos, cuencos. Hay talleres.', price: 3000, unit: '¥2,000–20,000', emoji: '🏺', shop: 'Higashi Chaya District', addr: 'Higashiyama, Kanazawa, Ishikawa' },
+    { item: 'té matcha', city: 'Kanazawa', title: 'Omicho Market', desc: 'Té matcha de la prefectura de Ishikawa. Buena relación calidad-precio.', price: 1500, unit: '¥1,000–4,000', emoji: '🍵', shop: 'Omicho Market', addr: '1-10-1 Kamiomicho, Kanazawa, Ishikawa' },
+    { item: 'kimono', city: 'Kanazawa', title: 'Higashi Chaya / Nagamachi', desc: 'Kimonos de seda de Kaga Yuzen. Teñido artesanal tradicional de Kanazawa.', price: 15000, unit: '¥8,000–100,000', emoji: '👘', shop: 'Higashi Chaya Kanazawa', addr: 'Higashiyama, Kanazawa, Ishikawa' },
+    { item: 'vinitos', city: 'Kanazawa', title: 'Omicho Market', desc: 'Sake local de Ishikawa. Variedad de pequeñas bodegas.', price: 2000, unit: '¥1,500–10,000', emoji: '🍶', shop: 'Omicho Market', addr: '1-10-1 Kamiomicho, Kanazawa, Ishikawa' },
+
+    // KYOTO
+    { item: 'té matcha', city: 'Kyoto', title: 'Nishiki Market · Ippodo Tea', desc: 'Ippodo Tea es la mejor teahouse de Kyoto. Matcha de primera calidad. Nishiki tiene varias teahouses.', price: 3000, unit: '¥2,000–8,000', emoji: '🍵', shop: 'Ippodo Tea Kyoto', addr: 'Teramachi-dori, Nakagyo-ku, Kyoto' },
+    { item: 'cuchillo cocina', city: 'Kyoto', title: 'Nishiki Market · Aritsugu', desc: 'Aritsugu es legendario — cuchillos japoneses desde 1560. Frente al mercado Nishiki.', price: 10000, unit: '¥8,000–60,000', emoji: '🔪', shop: 'Aritsugu Kyoto', addr: 'Gokomachi-dori, Nakagyo-ku, Kyoto' },
+    { item: 'cerámica', city: 'Kyoto', title: 'Kiyomizu-dera · Gojozaka', desc: 'Cerámica Kiyomizu-yaki. Cientos de tiendas camino al templo. Tazas, platos, decoración.', price: 3000, unit: '¥2,000–30,000', emoji: '🏺', shop: 'Gojozaka Kiyomizu-yaki', addr: 'Gojozaka, Higashiyama-ku, Kyoto' },
+    { item: 'cosmética japonesa', city: 'Kyoto', title: 'Yojiya', desc: 'Marca de cosmética tradicional de Kyoto. Papel absorbente de aceite, jabones, cremas. Famoso.', price: 1500, unit: '¥1,000–5,000', emoji: '💄', shop: 'Yojiya Gion', addr: 'Gion-machi, Higashiyama-ku, Kyoto' },
+    { item: 'kimono', city: 'Kyoto', title: 'Shijo-dori / Yasaka-dori', desc: 'Kimonos nuevos de seda. Telas de Nishijin. Caro pero calidad inigualable.', price: 20000, unit: '¥10,000–200,000', emoji: '👘', shop: 'Nishijin Textile Center', addr: 'Horikawa-dori, Kamigyo-ku, Kyoto' },
+    { item: 'vinitos', city: 'Kyoto', title: 'Nishiki Market', desc: 'Sake de Kyoto (Fukujusen, Sougen, Rikyubai). Puestos de degustación.', price: 2000, unit: '¥1,500–8,000', emoji: '🍶', shop: 'Nishiki Market', addr: 'Nakagyo-ku, Kyoto' },
+    { item: 'perfume', city: 'Kyoto', title: 'Shoyeido / Yamada-Matsu', desc: 'Inciensos de Kyoto. Shoyeido es la marca más prestigiosa. Yamada-Matsu en Gion.', price: 2000, unit: '¥1,500–10,000', emoji: '🪔', shop: 'Shoyeido Kyoto', addr: 'Nakagyo-ku, Kyoto' },
+
+    // OSAKA
+    { item: 'cuchillo cocina', city: 'Osaka', title: 'Doguyasuji Street (Kitchen Town)', desc: 'Kuromon Ichiba Market y Doguyasuji. Cuchillos de calidad a buen precio.', price: 6000, unit: '¥4,000–30,000', emoji: '🔪', shop: 'Doguyasuji', addr: 'Namba, Chuo-ku, Osaka' },
+    { item: 'anime figures', city: 'Osaka', title: 'Denden Town (Nipponbashi)', desc: 'La Akihabara de Osaka. Mandarake, Jungle, KBooks.', price: 2500, unit: '¥1,000–40,000', emoji: '🎎', shop: 'Mandarake Denden Town', addr: '3-14 Nipponbashi, Naniwa-ku, Osaka' },
+    { item: 'cosmética japonesa', city: 'Osaka', title: 'Shinsaibashi · Dotonbori', desc: 'Matsumoto Kiyoshi y Don Quijote gigantes. Grandes ofertas.', price: 1500, unit: '¥1,000–12,000', emoji: '💄', shop: 'Matsumoto Kiyoshi Shinsaibashi', addr: '2-5-5 Shinsaibashisuji, Chuo-ku, Osaka' },
+    { item: 'billetera', city: 'Osaka', title: 'Shinsaibashi-suji', desc: 'Marcas japonesas de cuero. Porter, Master-piece. Tiendas de estilo.', price: 12000, unit: '¥8,000–30,000', emoji: '👛', shop: 'Shinsaibashisuji', addr: 'Shinsaibashisuji, Chuo-ku, Osaka' },
+    { item: 'videojuegos', city: 'Osaka', title: 'Denden Town', desc: 'Super Potato, Retro Game Shop. Juegos retro a buen precio.', price: 2500, unit: '¥1,000–12,000', emoji: '🎮', shop: 'Super Potato Osaka', addr: '3-9 Nipponbashi, Naniwa-ku, Osaka' },
+    { item: 'whisky japonés', city: 'Osaka', title: 'Umeda · Hankyu Sanbangai', desc: 'Licorerías medianas. A veces tienen Yamazaki 12 a buen precio si tenés suerte.', price: 6000, unit: '¥4,000–50,000', emoji: '🥃', shop: 'Hankyu Sanbangai', addr: '1-1-3 Shibata, Kita-ku, Osaka' },
+
+    // OKAYAMA
+    { item: 'cerámica', city: 'Okayama', title: 'Bizen-yaki (Imbe)', desc: 'Okayama es la cuna de la cerámica Bizen. Imbe está a 30min. Hay talleres y tiendas.', price: 5000, unit: '¥3,000–50,000', emoji: '🏺', shop: 'Imbe Bizen Ceramics', addr: 'Imbe, Bizen, Okayama' },
+    { item: 'té matcha', city: 'Okayama', title: 'Korakuen Garden', desc: 'Tienda de té dentro del jardín. También en JR Okayama Station.', price: 1500, unit: '¥1,000–4,000', emoji: '🍵', shop: 'Okayama Station', addr: '1-1 Ekimotomachi, Kita-ku, Okayama' },
+    { item: 'vinitos', city: 'Okayama', title: 'Okayama Station · B1 basement', desc: 'Sake local. Okayama produce uvas (vino) y sake de arroz. Prueben el sake de Okayama.', price: 2000, unit: '¥1,500–8,000', emoji: '🍶', shop: 'Okayama Station', addr: '1-1 Ekimotomachi, Kita-ku, Okayama' },
+
+    // HAKONE
+    { item: 'sake', city: 'Hakone', title: 'Hakone Yumoto · tiendas locales', desc: 'Sake artesanal de la región. Cerca de Yoshiike Ryokan.', price: 2500, unit: '¥2,000–8,000', emoji: '🍶', shop: 'Hakone Yumoto', addr: 'Yumoto, Hakone, Kanagawa' },
+    { item: 'cerámica', city: 'Hakone', title: 'Hakone Yumoto · Hakone Glass Museum', desc: 'Cerámica tradicional y vidrio soplado. Artículos únicos de la región.', price: 4000, unit: '¥3,000–20,000', emoji: '🏺', shop: 'Hakone Glass Museum', addr: '130 Gora, Hakone, Kanagawa' },
+  ];
+
+  const $ = id => document.getElementById(id);
+  const searchInput = $('searchInput');
+  const searchBtn = $('searchBtn');
+  const resultsDiv = $('results');
+  const resultsList = $('resultsList');
+  const quickTags = $('quickTags');
+  const cityTabs = $('cityTabs');
+  const esLinks = $('esLinks');
+
+  let activeCity = 'Tokyo';
+
+  function init() {
+    // Quick tags
+    QUICK_ITEMS.forEach(item => {
+      const btn = document.createElement('button');
+      btn.textContent = item;
+      btn.addEventListener('click', () => {
+        searchInput.value = item;
+        doSearch(item);
+      });
+      quickTags.appendChild(btn);
+    });
+
+    // City tabs
+    CITIES.forEach(city => {
+      const btn = document.createElement('button');
+      btn.textContent = CITY_LABELS[city];
+      btn.dataset.city = city;
+      if (city === activeCity) btn.classList.add('active');
+      btn.addEventListener('click', () => {
+        cityTabs.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCity = city;
+        const q = searchInput.value.trim();
+        if (q) doSearch(q);
+      });
+      cityTabs.appendChild(btn);
+    });
+
+    searchBtn.addEventListener('click', () => {
+      const q = searchInput.value.trim();
+      if (q) doSearch(q);
+    });
+
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        const q = searchInput.value.trim();
+        if (q) doSearch(q);
+      }
+    });
+
+    // Focus search on load
+    searchInput.focus();
+  }
+
+  function toUSD(yen) { return (yen * USD_RATE).toFixed(0); }
+  function toARS(yen) { return (yen * ARS_RATE * 140).toFixed(0); }
+
+  function doSearch(query) {
+    const q = query.toLowerCase().trim();
+    if (!q) return;
+
+    const results = SHOPPING_DATA.filter(r => {
+      const matchItem = r.item.toLowerCase().includes(q);
+      const matchTitle = r.title.toLowerCase().includes(q);
+      const matchDesc = r.desc.toLowerCase().includes(q);
+      const matchShop = r.shop.toLowerCase().includes(q);
+      return matchItem || matchTitle || matchDesc || matchShop;
+    });
+
+    const cityResults = results.filter(r => r.city === activeCity);
+    const otherResults = results.filter(r => r.city !== activeCity);
+
+    const displayResults = cityResults.length > 0 ? cityResults : results;
+
+    renderResults(displayResults, query);
+
+    // External search links
+    const encQuery = encodeURIComponent(query);
+    esLinks.innerHTML = ''
+      + '<a href="https://www.google.com/search?tbm=shop&q=' + encQuery + '+japan" target="_blank" class="es-google">🛒 Google Shopping</a>'
+      + '<a href="https://www.amazon.co.jp/s?k=' + encQuery + '" target="_blank" class="es-amazon">📦 Amazon Japón</a>'
+      + '<a href="https://shopping.yahoo.co.jp/search?p=' + encQuery + '" target="_blank" class="es-yahoo">🛍️ Yahoo Shopping JP</a>'
+      + '<a href="https://www.google.com/search?q=' + encQuery + '+japan+tokyo+donde+comprar" target="_blank" class="es-github">🌐 Búsqueda general</a>';
+
+    resultsDiv.classList.add('show');
+  }
+
+  function renderResults(results, query) {
+    if (results.length === 0) {
+      resultsList.innerHTML = '<div class="not-found">✨ No encontramos sugerencias para "' + query + '"<br>Probá con otra palabra o usá los links de búsqueda online abajo</div>';
+      return;
+    }
+
+    let html = '';
+    results.forEach(r => {
+      const yen = r.price;
+      const usd = toUSD(yen);
+      const ars = toARS(yen);
+      const mapsQuery = encodeURIComponent(r.shop + ', ' + r.addr);
+      html += '<div class="result-item">'
+        + '<div class="ri-title">'
+        + '<span class="item-emoji">' + r.emoji + '</span>' + r.title
+        + '</div>'
+        + '<div class="ri-desc">' + r.desc + '</div>'
+        + '<div class="ri-meta">'
+        + '<span class="price-yen">¥ ' + r.unit + '</span>'
+        + '<span class="price-usd">US$ ~' + usd + '</span>'
+        + '<span class="tag-city">' + CITY_LABELS[r.city] + '</span>'
+        + '</div>'
+        + '<div class="ri-links">'
+        + '<a href="https://www.google.com/maps?q=' + mapsQuery + '" target="_blank" class="gmaps-link">📍 Maps</a>'
+        + '<a href="https://www.google.com/search?q=' + encodeURIComponent(r.shop + ' ' + r.city + ' shopping') + '" target="_blank" class="search-link">🔍 Buscar</a>'
+        + '</div>'
+        + '</div>';
+    });
+    resultsList.innerHTML = html;
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
